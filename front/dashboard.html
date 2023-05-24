@@ -234,6 +234,34 @@
           </div>
         </div>
         <!--Fin de la modal de citas-->
+        <!--Inicio modal editar citas-->
+        <div class="modal fade" id="modalCitasEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar una Cita</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="exampleInputName" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" id="fechaEditar" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputname" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" id="descripcionEditar" />
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnEditarCita">Editar Cita</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Fin modal editar citas-->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div class="container-fluid" id="capaMostrar">
             <h1 class="text-center mt-3">BIENVENIDO A TU AGENDA</h1>
