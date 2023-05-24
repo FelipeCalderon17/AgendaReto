@@ -2,6 +2,7 @@ const btnCitas = document.querySelector("#btnCitas");
 const fecha = document.querySelector("#fecha");
 const descripcion = document.querySelector("#descripcion");
 const btnAgregarCita = document.querySelector("#btnAgregarCita");
+const urlApi = "http://localhost:4000/";
 
 btnCitas.addEventListener("click", () => {
   capaMostrar.innerHTML = "";
@@ -63,6 +64,34 @@ btnCitas.addEventListener("click", () => {
   capaMostrar.appendChild(tabla);
 });
 
-btnAgregarCita.addEventListener("click", () => {
-  console.log(fecha.value);
+//Agregamos una cita
+btnAgregarCita.addEventListener("click", (e) => {
+  e.preventDefault();
+  fetch(urlApi + "citas", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      fecha: fecha.value,
+      descripcion: descripcion.value,
+    }),
+  })
+    .then((res) => {
+      return res.text();
+    })
+    .then((res) => {
+      if (res === "true") {
+        Swal.fire("Felicitaciones!", "Cita registrada satisfactoriamente", "success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error en la insercion",
+        });
+      }
+    });
 });
