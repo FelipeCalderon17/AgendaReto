@@ -5,6 +5,12 @@ const apellido2 = document.querySelector("#apellido2");
 const telefono = document.querySelector("#telefono");
 const email = document.querySelector("#email");
 const fechaNacimiento = document.querySelector("#fechaNacimiento");
+const nombreR = document.querySelector("#nombreR");
+const apellido1R = document.querySelector("#apellido1R");
+const apellido2R = document.querySelector("#apellido2R");
+const telefonoR = document.querySelector("#telefonoR");
+const emailR = document.querySelector("#emailR");
+const fechaNacimientoR = document.querySelector("#fechaNacimientoR");
 const btnAgregarContacto = document.querySelector("#btnAgregarContacto");
 
 btnContactos.addEventListener("click", () => {
@@ -77,9 +83,11 @@ btnContactos.addEventListener("click", () => {
         const td6 = document.createElement("td");
         td6.innerHTML = fecha[0];
         const td7 = document.createElement("td");
-        td7.innerHTML = "<button><i class='bi bi-pencil-square'></i></button>";
+        td7.innerHTML =
+          '<button id="btnEditarCon" class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modalContactoEditar"></button>';
         const td8 = document.createElement("td");
-        td8.innerHTML = "<button><i class='bi bi-trash3-fill'></i></button>";
+        td8.innerHTML =
+          '<button id="btnEliminarCon" class="bi bi-trash3-fill"></button>';
         tr1.appendChild(th);
         tr1.appendChild(td1);
         tr1.appendChild(td2);
@@ -95,8 +103,104 @@ btnContactos.addEventListener("click", () => {
   capaMostrar.appendChild(tabla);
 });
 
+on(document, "click", "#btnEliminarCon", (e) => {
+  let fila = e.target.parentNode.parentNode;
+  let id = fila.firstElementChild.innerHTML;
+  //id necesario para borrar
+  //const id = fila.children[0].innerHTML;
+  console.log(id);
+
+  Swal.fire({
+    title: "Deseas eliminar?",
+    text: "El contacto sera eliminado de la BASE DE DATOS!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, Eliminar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch("http://localhost:4000/contactos/" + id, {
+        method: "DELETE",
+      })
+        .then((respuesta) => {
+          return respuesta.json();
+        })
+        .then((data) => {});
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Se ha eliminado!",
+        showConfirmButton: false,
+        timer: 3500,
+      });
+    }
+  });
+});
+
+on(document, "click", "#btnEditarCon", (e) => {
+  let fila = e.target.parentNode.parentNode;
+  let id = fila.firstElementChild.innerHTML;
+  console.log(id);
+  btnEditarContacto.addEventListener("click", (e) => {
+    e.preventDefault();
+    fetch("http://localhost:4000/contactos/" + id, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        nombre: nombreR.value,
+        apellido1: apellido1R.value,
+        apellido2: apellido2R.value,
+        telefono: telefonoR.value,
+        email: emailR.value,
+        fechaNacimiento: fechaNacimientoR.value,
+      }),
+    })
+      .then((respuesta) => {
+        return respuesta.text();
+      })
+      .then(() => {
+        location.reload();
+      });
+  });
+});
+
 //Modal para agregar nuevo contacto
 btnAgregarContacto.addEventListener("click", (e) => {
   e.preventDefault();
-  capaMostrar.innerHTML += "";
+  fetch("http://localhost:4000/contactos", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      nombre: nombre.value,
+      apellido1: apellido1.value,
+      apellido2: apellido2.value,
+      telefono: telefono.value,
+      email: email.value,
+      fechaNacimiento: fechaNacimiento.value,
+    }),
+  })
+    .then((res) => {
+      return res.text();
+    })
+    .then((res) => {
+      if (res === "true") {
+        Swal.fire(
+          "Felicitaciones!",
+          "Contacto registrado satisfactoriamente",
+          "success"
+        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error en la insercion",
+        });
+      }
+    });
 });
