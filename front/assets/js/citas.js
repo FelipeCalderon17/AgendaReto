@@ -54,9 +54,10 @@ btnCitas.addEventListener("click", () => {
         td2.innerText = response[index].descripcion;
         const td3 = document.createElement("td");
         td3.innerHTML =
-          "<button id='btnEditar' data-bs-toggle='modal' data-bs-target='#modalCitasEditar'><i class='bi bi-pencil-square'></i></button>";
+          "<button id='btnEditar' class='bi bi-pencil-square' data-bs-toggle='modal' data-bs-target='#modalCitasEditar' ></button>";
         const td4 = document.createElement("td");
-        td4.innerHTML = "<button id='btnEliminar'><i class='bi bi-trash3-fill'></i></button>";
+        td4.innerHTML =
+          "<button id='btnEliminar' class='bi bi-trash3-fill'></button>";
         tr1.appendChild(th);
         tr1.appendChild(td1);
         tr1.appendChild(td2);
@@ -86,7 +87,11 @@ btnAgregarCita.addEventListener("click", (e) => {
     })
     .then((res) => {
       if (res === "true") {
-        Swal.fire("Felicitaciones!", "Cita registrada satisfactoriamente", "success");
+        Swal.fire(
+          "Felicitaciones!",
+          "Cita registrada satisfactoriamente",
+          "success"
+        );
         setTimeout(() => {
           window.location.reload();
         }, 1200);
