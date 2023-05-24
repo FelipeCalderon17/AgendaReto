@@ -1,4 +1,7 @@
 const btnCitas = document.querySelector("#btnCitas");
+const fecha = document.querySelector("#fecha");
+const descripcion = document.querySelector("#descripcion");
+const btnAgregarCita = document.querySelector("#btnAgregarCita");
 
 btnCitas.addEventListener("click", () => {
   capaMostrar.innerHTML = "";
@@ -46,9 +49,9 @@ btnCitas.addEventListener("click", () => {
         const td2 = document.createElement("td");
         td2.innerText = response[index].descripcion;
         const td3 = document.createElement("td");
-        td3.innerHTML = "Editar";
+        td3.innerHTML = "<button><i class='bi bi-pencil-square'></i></button>";
         const td4 = document.createElement("td");
-        td4.innerHTML = "Eliminar";
+        td4.innerHTML = "<button><i class='bi bi-trash3-fill'></i></button>";
         tr1.appendChild(th);
         tr1.appendChild(td1);
         tr1.appendChild(td2);
@@ -58,4 +61,8 @@ btnCitas.addEventListener("click", () => {
       }
     });
   capaMostrar.appendChild(tabla);
+});
+
+btnAgregarCita.addEventListener("click", () => {
+  console.log(fecha.value);
 });
